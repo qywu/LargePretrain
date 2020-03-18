@@ -1,4 +1,4 @@
-#!/bin/bash
+# !/bin/bash
 
 CODE_DIR=$CODE_DIR
 DATA_DIR=$DATA_DIR

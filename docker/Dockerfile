@@ -6,7 +6,7 @@ RUN git clone https://github.com/qywu/TorchFly.git && \
     conda env create -f environment.yml
 
 # Pretraining Code
-RUN git clone https://github.com/qywu/LargePretrain.git
+RUN git   clone https://github.com/qywu/LargePretrain.git
 
 # Environment Variables
 ENV CODE_DIR=/workspace/LargePretrain
