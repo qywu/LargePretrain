@@ -15,7 +15,7 @@ from model import PretrainModel
 logger = logging.getLogger(__name__)
 
 def train_loader_fn(config):
-    total_num_sectors = 2
+    total_num_sectors = 16
     sector_size = total_num_sectors // config.training.num_gpus_per_node
 
     data = []
