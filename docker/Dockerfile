@@ -7,7 +7,7 @@ RUN git clone https://github.com/qywu/TorchFly.git && \
 
 # Pretraining Code
 # RUN git clone  https://github.com/qywu/LargePretrain.git
-# COPY ./entrypoint.sh .
+COPY ./entrypoint.sh .
 # COPY . LargePretrain
 
 # RUN conda init bash
