@@ -9,7 +9,10 @@ This repo is to train large-scale language models on GCP
 2. Then exectute the following:
 
 ```bash
+sudo su
+mkdir /data
 git clone https://github.com/qywu/LargePretrain
-cd LargePretrain/docker
-docker build -t pretrain .
+cd LargePretrain
+mkdir outputs
+docker build -f docker/Dockerfile -t pretrain .
 ```
