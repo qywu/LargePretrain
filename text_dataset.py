@@ -84,7 +84,7 @@ class FullDocCollate:
     def __call__(self, batch):
         batch_input_ids, _ = zip(*batch)
         batch_input_ids = pad_sequence(batch_input_ids, batch_first=True, padding_value=self.pad_token_id)
-        batch_input_ids = F.pad(batch_input_ids, (1, 0), value=self.tokenizer.cls_token_id)
+        batch_input_ids = F.pad(batch_input_ids, (self.config.task.num_cls_tokens, 0), value=self.tokenizer.cls_token_id)
         batch_input_ids = F.pad(batch_input_ids, (0, 1), value=self.tokenizer.sep_token_id)
         batch_input_ids = batch_input_ids.long()
 

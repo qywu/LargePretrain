@@ -3,14 +3,27 @@ FROM nvcr.io/nvidia/pytorch:20.02-py3
 # TorchFly
 RUN git clone https://github.com/qywu/TorchFly.git && \
     cd TorchFly && \
-    conda env create -f environment.yml
+    pip install -r requirements.txt
 
 # Pretraining Code
-RUN git clone  https://github.com/qywu/LargePretrain.git 
+# RUN git clone  https://github.com/qywu/LargePretrain.git
+COPY ./entrypoint.sh .
+# COPY . LargePretrain
+
+# RUN conda init bash
+# RUN conda activate torchfly
 
 # Environment Variables
 ENV CODE_DIR=/workspace/LargePretrain
-ENV SAVE_DIR=/workspace/LargePretrain/outputs
 ENV DATA_DIR=/data
 
-ENTRYPOINT [ "/workspace/LargePretrain/start_training.sh"]
+ENV PATH /opt/conda/envs/env/bin:$PATH
+
+# Install TorchFly
+RUN cd TorchFly && \
+    git pull && \
+    pip install -e .
+
+SHELL ["/bin/bash", "-c"]
+
+ENTRYPOINT [ "/workspace/entrypoint.sh"]
