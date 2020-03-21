@@ -21,7 +21,7 @@ training:
     scheduler: "WarmupLinear" # WarmupConstant, WarmupLinear, WarmupCosine, WarmupCosineWithHardRestarts
     warmup_steps: 1000 # disabled when negative 
     weight_decay: 0.01
-    batch_size: 2
+    batch_size: 4
     total_num_epochs: -1
     total_num_steps: 10e6 # disabled when total_num_epochs > 0
     validation_steps_interval: -1 # set to infinite to disable validation
