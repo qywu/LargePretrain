@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 DATA_DIR = "/data"
 
 def train_loader_fn(config):
-    total_num_sectors = 8
+    total_num_sectors = 128
     sector_size = total_num_sectors // config.training.num_gpus_per_node
 
     data = []
