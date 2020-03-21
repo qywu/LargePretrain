@@ -75,7 +75,7 @@ def main_loop(cfg):
     logger.info("The job finished!")
 
 
-@hydra.main(config_path='conf/config.yaml')
+@hydra.main(config_path='config/config.yaml')
 def main(cfg=None):
     print(cfg.pretty())
     main_loop(cfg)
