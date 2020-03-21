@@ -6,6 +6,7 @@ gcsfuse -o allow_other -file-mode=755 -dir-mode=755 roberta_processed_corpus /da
 gcsfuse -o allow_other -file-mode=777 -dir-mode=777 qywu-pretrain-roberta-bucket $CODE_DIR/LargePretrain/outputs
 
 cd $CODE_DIR/LargePretrain
+git checkout gcp_exp1
 git pull
 
 docker run --gpus all --ipc=host -itd \
