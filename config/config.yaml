@@ -9,27 +9,27 @@ training:
     resume: true
     # reproduce
     random_seed: 123
-    num_gpus_per_node: 1
+    num_gpus_per_node: 2
     # Mixed Precision
     fp16: true
-    fp16_opt_level: "O1" # O0 to disable fp16
+    fp16_opt_level: "O2" # O0 to disable fp16
     # Optimization
     learning_rate: 2e-4
-    gradient_accumulation_steps: 4
+    gradient_accumulation_steps: 8
     max_gradient_norm: -1.0 # disabled when negative. used for clip_grad_norm
     optimizer: "AdamW"
     scheduler: "WarmupLinear" # WarmupConstant, WarmupLinear, WarmupCosine, WarmupCosineWithHardRestarts
     warmup_steps: 100 # disabled when negative 
     weight_decay: 0.01
-    batch_size: 3
+    batch_size: 2
     total_num_epochs: -1
-    total_num_iterations: 8e6 # disabled when total_num_epochs > 0
-    validation_iterations_interval: -1 # set to infinite to disable validation
+    total_num_steps: 10e6 # disabled when total_num_epochs > 0
+    validation_steps_interval: -1 # set to infinite to disable validation
 saving:
-    # when saving.iterations_interval and saving.seconds_interval
+    # when saving.steps_interval and saving.seconds_interval
     # are both negative, save the models for every epoch
-    iterations_interval: -1
-    seconds_interval: 1800 # disabled when iterations_interval > 1
+    steps_interval: -1
+    seconds_interval: 1800 # disabled when steps_interval > 1
     # checkpointer
     num_checkpoints_to_keep: 5
     keep_checkpoint_every_num_seconds: 3600
@@ -37,8 +37,8 @@ logging:
     log_dir: "logs"
     color: true
     level: "INFO"   
-    iterations_interval: -1 # disabled when negative
-    seconds_interval: 2 # disabled when `log_iterations_interval` is set
+    steps_interval: -1 # disabled when negative
+    seconds_interval: 2 # disabled when `log_steps_interval` is set
 model:
     max_position_embeddings: 520
     vocab_size: 50265

@@ -16,3 +16,16 @@ cd LargePretrain
 mkdir outputs
 docker build -f docker/Dockerfile -t pretrain .
 ```
+
+3. Add StartUp Script
+
+```bash
+gcloud compute instances add-metadata --zone "us-west1-a" qywu-preemptible \
+    --metadata-from-file startup-script=startup_script.sh
+```
+
+4. Check Status
+
+```bash
+gcloud beta compute ssh --zone "us-west1-a" "qywu-preemptible" --project "nlp-compute-project"
+```

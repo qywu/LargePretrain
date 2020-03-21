@@ -8,14 +8,12 @@ gcsfuse -o allow_other -file-mode=777 -dir-mode=777 qywu-pretrain-roberta-bucket
 cd $CODE_DIR/LargePretrain
 git pull
 
-docker run --gpus all --ipc=host    \
-                      --network=host \
-                      --mount type=bind,src=/data,dst=/data \
-                      --mount type=bind,src$CODE_DIR/LargePretrain,dst=/workspace/LargePretrain \
-                      pretrain
-
-docker run --gpus all --ipc=host -it  \
+docker run --gpus all --ipc=host -itd \
                       --network=host \
                       --mount type=bind,src=/data,dst=/data \
                       --mount type=bind,src=$CODE_DIR/LargePretrain,dst=/workspace/LargePretrain \
-                      pretrain bash
+                      pretrain
+
+# cd outputs
+# touch there_is_error.txt
+# reboot

@@ -14,8 +14,10 @@ from model import PretrainModel
 
 logger = logging.getLogger(__name__)
 
+DATA_DIR = "/home/wuqy1203/Desktop/Projects/TorchFly/examples/LargeScalePretrain/data"
+
 def train_loader_fn(config):
-    total_num_sectors = 16
+    total_num_sectors = 2
     sector_size = total_num_sectors // config.training.num_gpus_per_node
 
     data = []
@@ -25,7 +27,7 @@ def train_loader_fn(config):
         rank = 0
         
     for i in range(sector_size):
-        filename = f"/data/{i + rank * sector_size}.pkl"
+        filename = f"{DATA_DIR}/{i + rank * sector_size}.pkl"
         data.extend(torch.load(filename))
         logger.info(f"{i + rank * sector_size}.pkl loaded")
 
