@@ -70,3 +70,8 @@ This repo is to train large-scale language models on GCP
     ```bash
     gcloud beta compute ssh --zone "us-west1-b" "qywu-preemptible" --project "nlp-compute-project"
     ```
+    
+Tensorboard
+```bash
+tensorboard --nopurge_orphaned_data
+```
