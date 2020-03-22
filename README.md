@@ -54,7 +54,8 @@ This repo is to train large-scale language models on GCP
     chmod -R 777 /workspace
     
     mkdir outputs
-    docker build --no-cache -f docker/Dockerfile -t pretrain .
+    cd docker
+    docker build --no-cache -t pretrain .
     ```
 
 5. Add StartUp Script
