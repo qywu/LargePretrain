@@ -15,6 +15,12 @@ docker run --gpus all --ipc=host -itd \
                       --mount type=bind,src=$CODE_DIR/LargePretrain,dst=/workspace/LargePretrain \
                       pretrain
 
+# docker run --gpus all --ipc=host -it \
+#                       --network=host \
+#                       --mount type=bind,src=/data,dst=/data \
+#                       --mount type=bind,src=$CODE_DIR/LargePretrain,dst=/workspace/LargePretrain \
+#                       pretrain
+
 # cd outputs
 # touch there_is_error.txt
 # reboot
