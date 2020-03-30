@@ -4,7 +4,7 @@ defaults:
 hydra:
     run:
       # constant if you want to resume the training
-      dir: ./outputs/gcp_exp1 # ./outputs/${now:%Y-%m-%d}/${now:%H-%M-%S} #./outputs/exp1 # 
+      dir: ./outputs/gcp_base_exp3 # ./outputs/${now:%Y-%m-%d}/${now:%H-%M-%S} #./outputs/exp1 # 
 training:
     resume: true
     # reproduce
@@ -14,7 +14,7 @@ training:
     fp16: true
     fp16_opt_level: "O2" # O0 to disable fp16
     # Optimization
-    learning_rate: 1e-3
+    learning_rate: 1e-4
     gradient_accumulation_steps: 1
     max_gradient_norm: -1.0 # disabled when negative. used for clip_grad_norm
     optimizer: "AdamW"
