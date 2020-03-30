@@ -9,18 +9,17 @@ cd $CODE_DIR/LargePretrain
 git checkout gcp_exp1
 git pull
 
-docker run --gpus all --ipc=host -itd \
-                      --network=host \
-                      --mount type=bind,src=/data,dst=/data \
-                      --mount type=bind,src=$CODE_DIR/LargePretrain,dst=/workspace/LargePretrain \
-                      pretrain
+# running it in a screen, so we know what is happening
+screen -dmS pretrain -L -Logfile run.log \
+    docker run --gpus all --ipc=host -it \
+                        --network=host \
+                        --mount type=bind,src=/data,dst=/data \
+                        --mount type=bind,src=$CODE_DIR/LargePretrain,dst=/workspace/LargePretrain \
+                        pretrain
 
-# docker run --gpus all --ipc=host -it \
-#                       --network=host \
-#                       --mount type=bind,src=/data,dst=/data \
-#                       --mount type=bind,src=$CODE_DIR/LargePretrain,dst=/workspace/LargePretrain \
-#                       pretrain
+# start tensorboard
+screen -dmS tensorboard tensorboard --logdir=outputs --host=0.0.0.0 --purge_orphaned_data False
 
-# cd outputs
-# touch there_is_error.txt
-# reboot
+# start tensorboard
+screen -dmS check_gpu_status ./check_nvidia.sh
+

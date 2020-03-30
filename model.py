@@ -7,13 +7,13 @@ from torchfly.metrics import Metric, CategoricalAccuracy, F1Measure
 
 from typing import Dict
 
-from exbert_model import ExBertForMaskedLM
+from expbert_model import ExpBertForMaskedLM
 
 
 class PretrainModel(nn.Module):
     def __init__(self, config):
         super().__init__()
-        self.model = ExBertForMaskedLM(config.model)
+        self.model = ExpBertForMaskedLM(config.model)
 
     def forward(self, batch):
         input_ids = batch["input_ids"]

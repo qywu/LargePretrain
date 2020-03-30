@@ -7,38 +7,24 @@ import numpy as np
 import torch
 from torchvision import datasets, transforms
 from torchfly.training.trainer import Trainer
-from torchfly.text import IterableDataLoader
+from torchfly.training.data import DataDispatcher
 
-from text_dataset import FullDocDataset, FullDocCollate
+from dataset import FullDocDataset, FullDocProcessor
 from model import PretrainModel
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR = "/data"
+DATA_DIR = "/home/wuqy1203/Desktop/Projects/LargePretrain/data"
 
 def train_loader_fn(config):
-    total_num_sectors = 128
-    sector_size = total_num_sectors // config.training.num_gpus_per_node
-
-    data = []
-    try:
-        rank = torch.distributed.get_rank()
-    except:
-        rank = 0
-        
-    for i in range(sector_size):
-        filename = f"{DATA_DIR}/{i + rank * sector_size}.pkl"
-        data.extend(torch.load(filename))
-        print(f"{i + rank * sector_size}.pkl loaded")
-
-    # roberta-base.sep_token_id = 2
-    def _dataset_init_fn(index):
-        return FullDocDataset(data, max_seq_len=config.task.max_seq_len, sep_token_id=config.model.sep_token_id)
-
-    collate_fn = FullDocCollate(config)
-
-    return IterableDataLoader(dataset_init_fn=_dataset_init_fn, batch_size=config.training.batch_size, collate_fn=collate_fn)
-
+    # we pass the plasma_store_address through config
+    print(config.plasma_store_address)
+    dataset = FullDocDataset(config)
+    processor = FullDocProcessor(config)
+    # must set rank to ensure correct distributed training
+    dataloader = DataDispatcher(local_rank=config.rank, dataset=dataset, processor=processor, num_movers=1,
+                            batch_size=config.training.batch_size,plasma_store_address=config.plasma_store_address)
+    return dataloader
 
 @hydra.main(config_path="config/config.yaml", strict=False)
 def main(config=None):
