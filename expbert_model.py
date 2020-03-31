@@ -292,17 +292,20 @@ class ExpBertForMaskedLM(nn.Module):
             position_ids=position_ids,
         )
 
-        prediction_scores = self.cls(prediction_scores)
+        if masked_lm_labels is None:
+            prediction_scores = self.cls(prediction_scores)
+            results = {
+                "outputs": prediction_scores,
+            }
+            return results
+        else:
+            selected_scores = prediction_scores[masked_lm_labels != -100]
+            selected_mask_labels = masked_lm_labels[masked_lm_labels != -100]
+            selected_scores = self.cls(selected_scores)
+            masked_lm_loss = self.loss_func(selected_scores, selected_mask_labels)
+            #masked_lm_loss = self.loss_func(selected_scores.view(-1, selected_scores.shape[2]), masked_lm_labels.view(-1))
 
-        results = {
-            "outputs": prediction_scores,
-        }
-
-        if masked_lm_labels is not None:
-            masked_lm_loss = self.loss_func(
-                prediction_scores.view(-1, self.config.vocab_size), masked_lm_labels.view(-1)
-            )
-            results["loss"] = masked_lm_loss
+            results = {"outputs": prediction_scores, "loss": masked_lm_loss}
 
         return results
 
