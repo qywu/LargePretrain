@@ -7,26 +7,26 @@ from transformers import AutoTokenizer
 
 from typing import Iterator, Tuple
 
-DATA_DIR = "/home/wuqy1203/Desktop/Projects/LargePretrain/data"
+# DATA_DIR = "/home/wuqy1203/Desktop/Projects/LargePretrain/data"
 
 class FullDocDataset(IterableDataset):
     def __init__(self, config):
         super().__init__()
+        self.config = config
         self.data = []
-        self.total_num_sectors = 2
+        self.total_num_sectors = config.data.total_num_sectors
         self.sector_size = self.total_num_sectors // config.training.num_gpus_per_node
+        self.data_dir = config.data.data_dir
 
     def __iter__(self):
-        try:
-            rank = torch.distributed.get_rank()
-        except:
-            rank = 0
-            
+        # rank = torch.distributed.get_rank()
+        rank = self.config.rank
+
         while True:
             for i in range(self.sector_size):
-                filename = f"{DATA_DIR}/{i + rank * self.sector_size}.pkl"
+                filename = f"{self.data_dir}/{i + rank * self.sector_size}.pkl"
                 data = torch.load(filename)
-                # print(f"{i + rank * sector_size}.pkl loaded")
+                print(f"{i + rank * self.sector_size}.pkl loaded")
                 for item in data:
                     yield item.tolist()
 

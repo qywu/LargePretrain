@@ -14,7 +14,6 @@ from model import PretrainModel
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR = "/home/wuqy1203/Desktop/Projects/LargePretrain/data"
 
 def train_loader_fn(config):
     # we pass the plasma_store_address through config
@@ -22,7 +21,7 @@ def train_loader_fn(config):
     dataset = FullDocDataset(config)
     processor = FullDocProcessor(config)
     # must set rank to ensure correct distributed training
-    dataloader = DataDispatcher(local_rank=config.rank, dataset=dataset, processor=processor, num_movers=1,
+    dataloader = DataDispatcher(local_rank=config.rank, dataset=dataset, processor=processor, num_movers=1, num_workers=4, sorted_output=False,
                             batch_size=config.training.batch_size,plasma_store_address=config.plasma_store_address)
     return dataloader
 

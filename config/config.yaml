@@ -9,19 +9,19 @@ training:
     resume: true
     # reproduce
     random_seed: 123
-    num_gpus_per_node: 1
+    num_gpus_per_node: 8
     # Mixed Precision
     fp16: true
     fp16_opt_level: "O2" # O0 to disable fp16
     # Optimization
-    learning_rate: 1e-4
-    gradient_accumulation_steps: 1
+    learning_rate: 5e-4
+    gradient_accumulation_steps: 5
     max_gradient_norm: -1.0 # disabled when negative. used for clip_grad_norm
     optimizer: "AdamW"
     scheduler: "WarmupLinear" # WarmupConstant, WarmupLinear, WarmupCosine, WarmupCosineWithHardRestarts
     warmup_steps: 10000 # disabled when negative 
     weight_decay: 0.01
-    batch_size: 32
+    batch_size: 13
     total_num_epochs: -1
     total_num_update_steps: 1e6 # disabled when total_num_epochs > 0
     validation_steps_interval: -1 # set to infinite to disable validation
@@ -55,7 +55,9 @@ model:
     pad_token_id: 1
     sep_token_id: 2
 data:
-    max_seq_len: 128
+    data_dir: /data
+    total_num_sectors: 128
+    max_seq_len: 512
     num_cls_tokens: 1
     pad_token_id: 1
     sep_token_id: 2
