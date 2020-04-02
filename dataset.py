@@ -23,7 +23,7 @@ class FullDocDataset(IterableDataset):
         rank = self.config.rank
 
         while True:
-            for i in range(self.sector_size):
+            for i in reversed(range(self.sector_size)):
                 filename = f"{self.data_dir}/{i + rank * self.sector_size}.pkl"
                 data = torch.load(filename)
                 print(f"{i + rank * self.sector_size}.pkl loaded")
